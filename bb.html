@@ -1,0 +1,44 @@
+<!-- Licensed under a BSD license. See license.html for license -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+        <title>Engine2D</title>
+        <link rel="stylesheet" href="bb.css">
+    </head>
+
+    <body >
+        <canvas id="canvas"></canvas>
+        <canvas id="text"></canvas>
+    </body>
+
+    <script type="vertex_shader" id="vs_01">
+	    attribute vec2 a_position;
+		attribute vec2 a_texCoord;
+		
+        uniform mat3 u_world;
+        uniform vec2 u_frame;
+        uniform mat3 u_object;
+
+		varying vec2 v_texCoord;
+		void main(){
+			gl_Position = vec4(u_world * u_object * vec3(a_position, 1), 1);
+			v_texCoord = a_texCoord + u_frame;
+		}
+    </script>
+
+    <script type="fragment_shader" id="fs_01">
+        precision mediump float;
+		uniform sampler2D u_image;
+		varying vec2 v_texCoord;
+		
+		void main(){
+			gl_FragColor = texture2D(u_image, v_texCoord);
+		}
+    </script>
+
+    <script type="module" src="index.js"></script>
+</html>
+
+
